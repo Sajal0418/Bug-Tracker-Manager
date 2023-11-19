@@ -31,7 +31,7 @@ tbody tr:hover {
 
 /* Add some styling to the table header cells */
 th {
-    background-color: rgb(75, 119, 78);
+    background-color: #557C55;
     color: white;
 }
 
@@ -40,14 +40,31 @@ th {
     display: inline-block;
     padding: 10px 20px;
     margin-top: 20px;
-    background-color: #427a44;
+    background-color: #A6CF98;
     color: white;
     text-decoration: none;
     font-weight: bold;
     border-radius: 5px;
     transition: background-color 0.3s;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .btn:hover {
     background-color: #6cce71;
+}
+.status-open {
+    background-color: #69db83; /* Green for "Open" status */
+    color: #fff; 
+}
+
+.status-in-progress {
+    background-color: #ffdf7e; /* Yellow for "In Progress" status */
+    color: #000; 
+}
+
+.status-resolved {
+    background-color: #80B3FF; /* Blue for "Resolved" status */
+    color: #fff; 
 }
