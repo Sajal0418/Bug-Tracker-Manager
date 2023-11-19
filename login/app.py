@@ -12,7 +12,7 @@ app.secret_key = 'your secret key'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Murakami@29'
+app.config['MYSQL_PASSWORD'] = 'TgFRYUJ@03'
 app.config['MYSQL_DB'] = 'bugtracker'
 
 mysql = MySQL(app)
@@ -94,6 +94,18 @@ def display_issues():
         # Redirect to the login page if the user is not logged in
         return redirect(url_for('login'))
 
+@app.route('/logs')
+def display_logs():
+	if 'loggedin' in session:
+		cursor=mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+		cursor.execute("SELECT logs.id AS logs_id, commit_message, username, title AS issue_title FROM logs JOIN accounts ON logs.userID = accounts.id JOIN issues ON logs.issueID = issues.id;")
+		logs=cursor.fetchall()
+		cursor.close()
+
+		return render_template('logs.html', logs=logs)
+	else:
+		return redirect(url_for('login'))
+	
 
 if __name__ == '__main__':
     app.run(debug=True)
