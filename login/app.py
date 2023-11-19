@@ -85,8 +85,6 @@ def display_issues():
         # Execute a simple query to retrieve all issues
         cursor.execute("SELECT * FROM issues")
         issues = cursor.fetchall()
-
-        # Close the cursor (no need to close the connection as it's managed by Flask-MySQL)
         cursor.close()
 
         return render_template('issues.html', issues=issues)
@@ -94,6 +92,41 @@ def display_issues():
         # Redirect to the login page if the user is not logged in
         return redirect(url_for('login'))
 
+
+@app.route('/profile')
+def profile():
+    # Check if the user is logged in
+    if 'loggedin' in session:
+        # Connect to the MySQL database
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+        # Retrieve the user's assigned issues
+        user_id = session['id']
+        cursor.execute(
+            "SELECT * FROM issues WHERE assigned_to = %s", (user_id,))
+        assigned_issues = cursor.fetchall()
+
+        # Close the cursor (no need to close the connection as it's managed by Flask-MySQL)
+        cursor.close()
+
+        return render_template('profile.html', issues=assigned_issues)
+    # If not logged in, redirect to the login page
+    return redirect(url_for('login'))
+
+
+@app.route('/change_status/<int:issue_id>', methods=['POST'])
+def change_status(issue_id):
+    if 'loggedin' in session:
+        user_id = session['id']
+        new_status = request.form['new_status']
+        cursor = mysql.connection.cursor()
+        update_query = "UPDATE issues SET status = %s WHERE id = %s AND assigned_to = %s"
+        cursor.execute(update_query, (new_status, issue_id, user_id))
+        mysql.connection.commit()
+        cursor.close()
+        return redirect(url_for('display_issues'))
+    else:
+        return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
