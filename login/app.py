@@ -99,7 +99,6 @@ def display_logs():
 		cursor.execute("SELECT logs.id AS logs_id, commit_message, username, title AS issue_title FROM logs JOIN accounts ON logs.userID = accounts.id JOIN issues ON logs.issueID = issues.id;")
 		logs=cursor.fetchall()
 		cursor.close()
-
 		return render_template('logs.html', logs=logs)
 	else:
 		return redirect(url_for('login'))
