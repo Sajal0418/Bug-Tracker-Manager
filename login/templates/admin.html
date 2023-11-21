@@ -1,0 +1,62 @@
+<!-- admin.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='issue.css') }}">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <a href="{{ url_for('display_issues') }}" class="btn">All Issues</a>
+    <a href="{{ url_for('display_logs') }}" class="btn1">Logs</a>
+    <p><h2>Welcome, {{ session.username }}!</h2></p>
+
+    <!-- Display all issues with an additional column for assignment -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Severity</th>
+                <th>Assigned To</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for issue in issues %}
+            <tr>
+                <td>{{ issue.id }}</td>
+                <td>{{ issue.title }}</td>
+                <td>{{ issue.description }}</td>
+                <td class="{% if issue.status == 'Open' %}status-open{% elif issue.status == 'In Progress' %}status-in-progress{% elif issue.status == 'Resolved' %}status-resolved{% endif %}">{{ issue.status }}</td>
+                <td>{{ issue.priority }}</td>
+                <td>{{ issue.severity }}</td>
+                <td>
+                    <form action="{{ url_for('assign_issues') }}" method="post">
+                        <input type="hidden" name="issue_id" value="{{ issue.id }}">
+                        <label for="assigned_to">Assign to:</label>
+                        <select name="assigned_to">
+                            {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Assign">
+                    </form>
+                </td>
+                <td>{{ issue.created_at }}</td>
+                <td>{{ issue.updated_at }}</td>
+                
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Add more content related to the admin dashboard as needed -->
+</body>
+</html>
