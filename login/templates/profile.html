@@ -9,13 +9,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='issue.css') }}">
 </head>
 <body>
-
-    <div class="bcontainer">
-        <a href="{{ url_for('display_issues') }}" class="btn">All Issues</a>
-        <a href="{{ url_for('display_logs') }}" class="btn1">Logs</a>
-    </div>
     <h1>User Profile</h1>
-    <p><h2>Welcome, {{ session.username }}!</h2></p>
+    <a href="{{ url_for('display_issues') }}" class="btn">All Issues</a>
+    <a href="{{ url_for('display_logs') }}" class="btn1">Logs</a>
+    <div>
+        <h2>Welcome, {{ session.username }}!</h2>
+    </div>
 
     <!-- Display assigned issues -->
     <h3>Assigned Issues</h3>
@@ -47,20 +46,31 @@
                 <td>{{ issue.created_at }}</td>
                 <td>{{ issue.updated_at }}</td>
                 <td>
-                    <form action="{{ url_for('change_status', issue_id=issue.id) }}" method="post">
-                        <select name="new_status">
-                            <option value="Open">Open</option>
-                            <option value="In Progress">In Progress</option>
-                            <option value="Resolved">Resolved</option>
-                        </select>
-                        <input type="submit" value="Change Status">
-                    </form>
+                    {% if issue.status != 'Resolved' %}
+                        <form action="{{ url_for('change_status', issue_id=issue.id) }}" method="post">
+                            <select name="new_status" onchange="showCommitMessage(this, {{ issue.id }})">
+                                <option value="Open">Open</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                            <input type="text" name="commit_message" id="commit_message_{{ issue.id }}" style="display: none;" placeholder="Enter commit message">
+                            <input type="submit" value="Change Status">
+                        </form>
+                    {% else %}
+                        <!-- Display a message or do nothing for resolved issues -->
+                        <span>No action available</span>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    <!-- Add more content related to the user profile as needed -->
+    <script>
+        function showCommitMessage(select, issueId) {
+            var commitMessageInput = document.getElementById('commit_message_' + issueId);
+            commitMessageInput.style.display = (select.value === 'Resolved') ? 'block' : 'none';
+        }
+    </script>
 </body>
 </html>

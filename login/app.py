@@ -12,7 +12,7 @@ app.secret_key = 'your secret key'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'Murakami@29'
+app.config['MYSQL_PASSWORD'] = 'TgFRYUJ@03'
 app.config['MYSQL_DB'] = 'bugtracker'
 
 mysql = MySQL(app)
@@ -194,11 +194,21 @@ def change_status(issue_id):
     if 'loggedin' in session:
         user_id = session['id']
         new_status = request.form['new_status']
+        commit_message = request.form.get('commit_message', '')  # Retrieve commit message or use an empty string if not provided
+
+        # Update the issues table
         cursor = mysql.connection.cursor()
         update_query = "UPDATE issues SET status = %s WHERE id = %s AND assigned_to = %s"
         cursor.execute(update_query, (new_status, issue_id, user_id))
+        
+        # If commit_message is provided, insert into logs table
+        if commit_message:
+            insert_query = "INSERT INTO logs (userID, issueID, commit_message) VALUES (%s, %s, %s)"
+            cursor.execute(insert_query, (user_id, issue_id, commit_message))
+
         mysql.connection.commit()
         cursor.close()
+
         return redirect(url_for('display_issues'))
     else:
         return redirect(url_for('login'))
