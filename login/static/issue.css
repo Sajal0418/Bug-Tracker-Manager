@@ -1,4 +1,3 @@
-
 body {
     font-family: Arial, sans-serif;
 }
@@ -29,14 +28,14 @@ tbody tr:hover {
     background-color: #f5f5f5;
 }
 
-/* Add some styling to the table header cells */
+/* Add styling to the table header cells */
 th {
     background-color: #557C55;
     color: white;
 }
 
 /* Add styling to the "Go to Issues" button */
-.btn {
+.btn, .btn1 {
     display: block;
     padding: 10px 20px;
     margin-top: 20px;
@@ -46,14 +45,30 @@ th {
     font-weight: bold;
     border-radius: 5px;
     transition: background-color 0.3s;
+}
+
+.btn:hover, .btn1:hover {
+    background-color: #6cce71;
+}
+
+/* Add some styling to the table header cells */
+.th-buttons {
     position: absolute;
     top: 10px;
     right: 10px;
 }
 
-.btn:hover {
-    background-color: #6cce71;
+/* Add some hover effect to the table rows */
+tbody tr:hover {
+    background-color: #f5f5f5;
 }
+
+/* Add styling to the table header cells */
+th {
+    background-color: #557C55;
+    color: white;
+}
+
 .status-open {
     background-color: #69db83; /* Green for "Open" status */
     color: #fff; 
@@ -68,16 +83,10 @@ th {
     background-color: #80B3FF; /* Blue for "Resolved" status */
     color: #fff; 
 }
-.btn1{
-padding: 10px 20px;
-margin-top: 20px;
-background-color: #A6CF98;
-color: white;
-text-decoration: none;
-font-weight: bold;
-border-radius: 5px;
-transition: background-color 0.3s;
-position: absolute;
-top: 60px;
-right: 10px;
+
+/* Add some styling to the buttons container */
+.bcontainer {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }

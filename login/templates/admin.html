@@ -9,9 +9,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='issue.css') }}">
 </head>
 <body>
-    <h1>Admin Dashboard</h1>
+    
+    <div class="bcontainer">
     <a href="{{ url_for('display_issues') }}" class="btn">All Issues</a>
     <a href="{{ url_for('display_logs') }}" class="btn1">Logs</a>
+    </div>
+    <h1>Admin Dashboard</h1>
     <p><h2>Welcome, {{ session.username }}!</h2></p>
 
     <!-- Display all issues with an additional column for assignment -->

@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='logs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='issue.css') }}">
     <title>Logs</title>
 </head>
 <body>
-    <h1>Logs</h1>
-    <div class="btn-container">
-        <a href="{{ url_for('profile') }}" class="btn">My Profile</a>
-        <a href="{{ url_for('display_issues') }}" class="btn">All Issues</a>
-    </div>
     
+    <div class="bcontainer">
+        <a href="{{ url_for('profile') }}" class="btn">My Profile</a>
+        <a href="{{ url_for('display_issues') }}" class="btn1">All Issues</a>
+    </div>
+    <h1>Logs</h1>
     <table border="1">
         <thead>
             <tr>

@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='issue.css') }}">
 
     <title>Issue Tracker</title>
-    <a href="{{ url_for('profile') }}" class="btn">My Profile</a>
+    <div class="bcontainer">
+        <a href="{{ url_for('profile') }}" class="btn">My Profile</a>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn1">Admin</a>
+    </div>
+
 </head>
 <body>
     <h1>Issue Tracker</h1>
